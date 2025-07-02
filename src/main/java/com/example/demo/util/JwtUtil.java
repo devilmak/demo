@@ -20,7 +20,7 @@ public class JwtUtil {
     private String secret;
 
 //    private final long JWT_EXPIRATION = 1000 * 60 * 60 * 10; // 10 hours
-    private final long JWT_EXPIRATION = Duration.ofMinutes(1).toMillis(); // 1 min
+    private final long JWT_EXPIRATION = Duration.ofMinutes(10).toMillis(); // 10 min
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());

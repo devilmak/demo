@@ -1,0 +1,13 @@
+# Ignore everything in target except the JAR
+target/*
+!target/*.jar
+
+*.iml
+*.log
+*.class
+.git
+.gitignore
+Dockerfile
+node_modules/
+build/
+README.md

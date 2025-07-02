@@ -1,0 +1,8 @@
+{
+  "routes": {
+    "/": {},
+    "/create-account": {},
+    "/forgot-account": {},
+    "/world-map": {}
+  }
+}

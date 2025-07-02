@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  springboot-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://host.docker.internal:1433;databaseName=demo;encrypt=true;trustServerCertificate=true
+      - SPRING_DATASOURCE_USERNAME=springuser
+      - SPRING_DATASOURCE_PASSWORD=password
+    container_name: springboot-app
