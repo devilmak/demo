@@ -36,16 +36,35 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-        return getClaims(token).getSubject();
+        try {
+            Claims claims = getClaims(token);
+            return claims.getSubject();
+        } catch (Exception e) {
+            System.err.println("[JwtUtil] Failed to extract username: " + e.getMessage());
+            return null;
+        }
     }
 
     public boolean isTokenValid(String token, String username) {
-        final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+        try {
+            String extractedUsername = extractUsername(token);
+            return extractedUsername != null &&
+                    extractedUsername.equals(username) &&
+                    !isTokenExpired(token);
+        } catch (Exception e) {
+            System.err.println("[JwtUtil] Token validation failed: " + e.getMessage());
+            return false;
+        }
     }
 
     public boolean isTokenExpired(String token) {
-        return getClaims(token).getExpiration().before(new Date());
+        try {
+            Date expiration = getClaims(token).getExpiration();
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            System.err.println("[JwtUtil] Could not check token expiration: " + e.getMessage());
+            return true; // fail-safe: treat invalid tokens as expired
+        }
     }
 
     private Claims getClaims(String token) {
@@ -57,10 +76,6 @@ public class JwtUtil {
     }
 
     public long getExpirationForUser(UserDetails user) {
-//        boolean isAdmin = user.getAuthorities().stream()
-//                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-//
-//        return isAdmin ? Duration.ofHours(24).toMillis() : Duration.ofHours(10).toMillis();
         return JWT_EXPIRATION;
     }
 }
